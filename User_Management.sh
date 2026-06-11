@@ -1,23 +1,21 @@
 #!/bin/bash
-# Project 1: User Management System
-# Requirements:
-# Create users from a file
-# Create groups
-# Add users to groups
-# Set passwords
 # Generate logs
-
 Logfile="/tmp/Usermanagement.log"
 echo " The user creation started at $(date)"
+
+# Create users from a file
 while read -r user;do
     if ! getent passwd "$user" >/dev/null;then
-        sudo useradd "$user" >>"$Logfile" 2>&1
+        sudo useradd "$user" >>"$Logfile" 2>&1  # Generate logs
     else
         echo "$user already exist" >>"$Logfile"
     fi
     
     if ! getent group testers >/dev/null;then
+        # Create groups
         sudo groupadd testers >>"$Logfile"
+
+        # Add users to groups
         sudo usermod -aG testers "$user" 
     else
         echo " Group already exist" >>"$Logfile"
